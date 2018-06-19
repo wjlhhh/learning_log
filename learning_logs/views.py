@@ -110,6 +110,27 @@ def edit_entry(request, entry_id):
     context = {'entry': entry, 'topic': topic, 'form': form}
     return render(request, 'learning_logs/edit_entry.html', context)
 
+@login_required
+def delete_entry(request, entry_id):
+    """编辑既有条目"""
+    entry = Entry.objects.get(id=entry_id)
+    topic = entry.topic
+    if topic.owner != request.user:
+        raise Http404
+
+    #POST提交的数据，对数据进行处理
+    form = EntryForm(instance=entry, )
+    entry = entry.delete()
+    if form.is_valid():
+
+        form.save()
+#        return HttpResponseRedirect(reverse('learning_logs:topic',
+#                                        args=[topic.id]))
+        return HttpResponseRedirect(reverse('learning_logs:topics'))
+
+    context = {'entry': entry, 'topic': topic, 'form': form}
+    return render(request, 'learning_logs/topics.html', context)
+
 def check_topic_owner(request):
     if topic.owner != request.user:
         raise Http404

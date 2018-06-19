@@ -11,4 +11,5 @@ urlpatterns = [
     path('new_topic/', views.new_topic, name='new_topic'),
     re_path('new_entry/(?P<topic_id>\d+)/', views.new_entry, name='new_entry'),
     re_path('edit_entry/(?P<entry_id>\d+)/', views.edit_entry, name='edit_entry'),
+    re_path('delete_entry/(?P<entry_id>\d+)/', views.delete_entry, name='delete_entry'),
 ]
